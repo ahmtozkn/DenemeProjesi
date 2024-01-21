@@ -1,0 +1,296 @@
+﻿<html>
+<head>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.27/sweetalert2.min.css" integrity="sha512-IScV5kvJo+TIPbxENerxZcEpu9VrLUGh1qYWv6Z9aylhxWE4k4Fch3CHl0IYYmN+jrnWQBPlpoTVoWfSMakoKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" integrity="sha512-ZKX+BvQihRJPA8CROKBhDNvoc2aDMOdAlcm7TUQY+35XYtrd3yh95QOOhsPDQY9QnKE0Wqag9y38OIgEvb88cA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+
+
+
+    <style>
+        #CartItem {
+            font-size: 15px;
+        }
+
+        
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 500px;
+            width: 380px; /* İstediğiniz genişlik */
+            height: 400px;
+            background-color: white;
+            overflow-x: hidden;
+            padding-top: 60px;
+            z-index: 2;
+        }
+
+        #Delete:hover{
+            color:red
+
+
+        }
+        #Delete:not(:hover){
+            color:black
+
+        }
+
+        #sepetDetay:hover{
+            color:black;
+            background-color: #FFA500;
+        }
+        #sepetDetay:not(:hover){
+            color:white;
+            background-color:darkorange
+
+
+        }
+
+        #SepetButton1:hover{
+            color:white;
+            background-color: #FFA500
+        }
+        #SepetButton1:not(:hover){
+
+            color:white;
+            background-color:darkorange
+        }
+
+
+        #alışverişTamamla:hover{
+            color: black;
+            background-color: #FFA500
+        }
+
+        #alışverişTamamla:not(:hover) {
+            color: white;
+            background-color: darkorange
+        }
+
+        #sepetButton:hover {
+            color: white;
+            background-color: #FFA500
+        }  
+        #sepetButton:not(:hover){
+            background-color: black;
+            color:white;
+            font-weight: bold;
+
+           
+           
+        }
+
+        /* Modal içeriği sağ tarafa yerleştirme */
+        .modal-content-right {
+            position: relative;
+            margin: auto;
+          /*   padding: 10px; */
+            width: 80%; /* İstediğiniz genişlik */
+        }
+
+        .sepetitem:hover{
+
+            color:orange
+        }
+
+        /* Kapatma işareti stilini güncelleme */
+        .close {
+            position: absolute;
+            top: 0;
+            left: 10px; /* Kapatma işareti sol tarafta olacak şekilde güncellendi */
+            font-size: 20px;
+            font-weight: bold;
+            color:black;
+            cursor: pointer;
+        }
+
+            /* Kapatma işareti stilini güncelleme (hover durumu) */
+            .close:hover {
+                color: red;
+            }
+            
+        ::placeholder {
+            color: black;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        label.required:after {
+            content: "*\00a0";
+            color: red;
+            margin-left: 2px;
+        }
+        .header{
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            margin: 2rem 7%;
+            border-radius: 30rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000
+        }
+    </style>
+
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+  @*   <header class="p-3 text" style=" background-color:black">
+        <div class="container row ">
+          
+         
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start col-8">
+                <a class="btn" style="color:white" asp-controller="Card" asp-action="Index">Alışveriş</a>
+               
+                     <a class="btn" style="color:white" asp-controller="Product" asp-action="Index">Ürünler</a>
+                     <a class="btn" style="color:white" asp-controller="Home" asp-action="List">Ürün Detay</a>
+                    <a class="btn" style="color:white" asp-controller="Admin" asp-action="OrderControl">Sipariş Kontrol</a>
+               
+               
+                <a id="sepetitem" class="btn" style="color:white" asp-controller="Sepet" asp-action="Index">Sepet</a>
+                <a  class="btn" style="color:white" asp-controller="Order" asp-action="Index">Siparişlerim</a>
+
+            </div>
+
+            <div class=" col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" style="text-align:left">
+                <div class="d-flex">
+
+
+              
+
+                @if (User.Identity.IsAuthenticated == false)
+                {
+                    <a class="btn" style="color:white" asp-controller="Auth" asp-action="Login">Giriş</a>
+                    <a class="btn" style="color:white" asp-controller="Auth" asp-action="Register">Kayıt</a>
+                }
+                </div>
+            </div>
+        </div>
+        
+    </header> *@
+    <header class="p-3 mb-3 header" style="background-color:black">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+              
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ms-5">
+
+                    <li><a href="/" class="nav-link px-2 text-white">Ana Sayfa</a></li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                    <li> <a class="btn" style="color:white" asp-controller="Product" asp-action="Index">Ürünler</a>   </li>
+                    <li>  <a class="btn" style="color:white" asp-controller="Home" asp-action="List">Ürün Detay</a>   </li>
+                    <li>  <a class="btn" style="color:white" asp-controller="Admin" asp-action="OrderControl">Sipariş Kontrol</a>  </li>
+ 
+
+                    }
+
+                    
+                  
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                 
+                    <li>   <a id="sepetitem" class="btn" style="color:white" asp-controller="Sepet" asp-action="Index">Sepet</a>  </li>
+                    <li>   <a class="btn" style="color:white" asp-controller="Order" asp-action="Index">Siparişlerim</a> </li>
+                    }
+                  
+                </ul>
+
+                <div  >
+
+                    @if (User.Identity.IsAuthenticated == false)
+                    {
+                        <a class="btn" style="color:white" asp-controller="Auth" asp-action="Login">Giriş</a>
+                        <a class="btn" style="color:white" asp-controller="Auth" asp-action="Register">Kayıt</a>
+                    }
+                </div>
+
+
+
+
+
+
+
+                    <div>
+                        <a asp-controller="Auth" asp-action="Logout" class="btn btn-outline-warning ms-3"> Çıkış Yap</a>
+                    </div>
+               
+
+
+
+            </div>
+        </div>
+    </header>
+   
+    <div class="row ">
+
+
+
+        <div class="container mb-5 col-10 mt-5 ">
+
+
+            @RenderBody()
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.datatables.net/v/dt/dt-1.13.6/datatables.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.7.27/sweetalert2.min.js" integrity="sha512-mJQ9oQHzLM2zXe1cwiHmnMddNrmjv1YlaKZe1rM4J7q8JTnNn9UgeJVBV9jyV/lVGdXymVx6odhgwNZjQD8AqA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" integrity="sha512-Ixzuzfxv1EqafeQlTCufWfaC6ful6WFqIz4G+dWvK0beHw0NVJwvCKSgafpy5gwNqKmgUfIBraVwkKI+Cz0SEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+
+
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    @await RenderSectionAsync("Scripts", required:false)
+    <script>
+
+        $('#btnGirisYap').click(function () {
+            $('#Welcome').addClass('d-none')
+            $('#Login').removeClass('d-none')
+
+        })
+
+        $('#btnIptal').click(function () {
+            $('#Welcome').removeClass('d-none')
+            $('#Login').addClass('d-none')
+
+        })
+
+    </script>
+
+
+</body>
+
+</html> 

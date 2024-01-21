@@ -1,0 +1,48 @@
+﻿@model List<ListProductVm>
+<a class="btn btn-success" asp-controller="Product" asp-action="Add">Yeni Ürün</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Güncelle/Sil</th>
+            </tr>
+
+        </thead>
+        <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (string.IsNullOrWhiteSpace(item.ImagePath))
+                    {
+                        <img src="~/Images/noImage.jpg" width="155" height="155" />
+                    }
+                    else
+                    {
+                        <a href="~/Images/products/@item.ImagePath" data-lightbox="x" data-title="y">
+
+                            <img src="~/Images/products/@item.ImagePath" width="155" height="155" />
+
+
+                        </a>
+
+
+                    }
+
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>@item.Price</td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id">Güncelle</a>
+                    <a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+               </td>
+            </tr>
+        }
+        </tbody>
+
+
+    </table>

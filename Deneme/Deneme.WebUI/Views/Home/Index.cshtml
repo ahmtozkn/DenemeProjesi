@@ -1,0 +1,21 @@
+﻿@model ProductDetailVM
+
+
+<h5 style="color:red">
+   @ViewBag.Eror
+</h5>
+
+
+
+<form asp-controller="Home" asp-action="Index" method="post">
+
+    <input asp-for="Id" type="hidden"/>
+    <label>Product</label>
+    <select asp-for="ProductId" asp-items="@(new SelectList(ViewBag.Product,"Id","Name"))" class="form-control">  <option selected disabled>Seçiniz</option> </select>
+    <label>Vertians</label>
+    <select asp-for="VeritansDetailId" asp-items="@(new SelectList(ViewBag.Veritans,"Id","Name"))" class="form-control">  <option selected disabled>Seçiniz</option> </select>
+  
+    <label asp-for="Quantity"></label>
+    <input asp-for="Quantity" class="form-control" />
+    <button class="btn btn-success" type="submit">Ekle</button>
+</form>

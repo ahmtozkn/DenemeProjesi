@@ -1,0 +1,202 @@
+﻿@model CargoVm
+
+@{
+
+    var orderList = (List<OrderVm>)ViewBag.OrderVm;
+}
+
+
+<style>
+    body {
+        /*  font-family:"Open Sans",sans-serif; */
+        background-color: white;
+    }
+
+    table {
+        width: 100%;
+        margin: 0px auto;
+        border-collapse: collapse;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0px 0px 20px black;
+        margin-bottom: 40px;
+        margin-top: 40px;
+    }
+
+
+        table th {
+            position: sticky;
+            top: 0;
+            font-size: large
+        }
+
+    thead {
+        background-color: black;
+        line-height: 50px;
+        text-align: left;
+        color: white;
+        position: sticky;
+        top: 0;
+        /*  background-color: white;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 7%;
+                margin: 2rem 7%;
+                border-radius: 30rem;
+                position: sticky;
+                top: 0;
+                z-index: 1000 */
+    }
+
+        thead tr th:first-child {
+            padding-left: 40px;
+        }
+
+    tbody {
+        line-height: 45px;
+    }
+
+        tbody tr td:first-child {
+            padding-left: 40px;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: white;
+        }
+
+        tbody tr {
+            height: 80px;
+            background-color: white;
+        }
+
+    thead a {
+        font-size: 50px;
+    }
+
+    tbody a {
+        /* background-color: black;
+                line-height: 50px;
+                text-align: left;
+                color: white; */
+    }
+
+    tbody tr:hover {
+        background-color: whitesmoke;
+        color: black;
+    }
+
+    .button {
+        background-color: whitesmoke;
+        margin: 0 10px;
+        text-align: center;
+        border-radius: 10px;
+        color: black;
+        font-size: large;
+    }
+
+</style>
+
+<h3 style="text-align:center">Sipariş Kontrol</h3>
+
+<div class="row" style="display:flex;justify-content:center;align-items:center;margin-top:30px">
+    <a asp-controller="Admin" asp-action="OrderControl" class="col-2 button btn">
+        Tüm Siparişler
+    </a>
+    <a asp-controller="Admin" asp-action="CompletedOrder" class="col-2 button btn">
+        Onaylanan Siparişler
+    </a>
+    <a asp-controller="Admin" asp-action="PendingOrder" class="col-2 button btn" >
+        Bekleyen Siparişler
+    </a>
+    <a asp-controller="Admin" asp-action="PreparedOrders" class="col-2 button btn" style="background-color:black;color:white">
+        Hazırlanan Siparişler
+    </a>
+</div>
+
+<table>
+    <thead class="aa">
+        <tr>
+            <th>Alıcı</th>
+            <th>Sipariş Tarihi</th>
+            <th colspan="2">Sipariş Tutarı</th>
+            <th>Durum</th>
+            <th></th>
+
+            <th></th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in orderList)
+        {
+            <tr>
+                <td>@item.UserName</td>
+                <td>@item.CreatedDate</td>
+                <td>@item.TotalPrice TL</td>
+                <td></td>
+                @if (item.OrderStatus == OrderStatusEnum.SiparisHazırlanıyor)
+                {
+                <td >
+                   Sipariş Hazırlanıyor
+                  </td>
+                }
+                else if (item.OrderStatus == OrderStatusEnum.TeslimEdildi)
+                {
+                    <td>Teslim Edildi</td>
+                }
+                else if (item.OrderStatus == OrderStatusEnum.KargoyaVerildi)
+                {
+                    <td>Kargoya Verildi</td>
+                }
+
+
+                <td >
+                    @if (item.OrderStatus == OrderStatusEnum.SiparisHazırlanıyor)
+                    {
+                        <form asp-controller="Admin" asp-action="CargoEdit">
+                            <input type="hidden" asp-for="OrderId" value="@item.Id" />
+                            <input asp-for=CargoNo style="border-radius: 20px;" placeholder="Kargo No" />
+                            <button class="btn btn-danger" type="submit">KargoyaGönder</button>
+                        </form>
+
+                    }
+                    else if (item.OrderStatus == OrderStatusEnum.KargoyaVerildi)
+                    {
+                        <a style="background-color:darkorange" class="btn" asp-controller="Admin" asp-action="OrderCheck" asp-route-id="@item.Id">Siparişi Onayla </a>
+                    }
+                    else if (item.OrderStatus == OrderStatusEnum.TeslimEdildi)
+                    {
+
+                        <div style="color:darkgreen">
+                            <i class="fas fa-check-circle"></i>
+                            Sipariş Onaylandı
+                        </div>
+
+                    }
+                </td>
+
+                <td>  <a asp-controller="Order" asp-action="OrderDetail" asp-route-orderId="@item.Id" style="text-align:left;color:darkorange;font-size:large" class="btn">Detay></a>  </td>
+            </tr>
+        }
+
+    </tbody>
+    <tfoot></tfoot>
+</table>
+<script>
+    function filterOrders(status) {
+        var rows = document.querySelectorAll('tbody tr');
+
+        rows.forEach(function (row) {
+            var rowStatus = row.querySelector('td:nth-child(5)').innerText.trim();
+
+            if (status === 'all' || rowStatus === status) {
+                row.style.display = 'table-row';
+            } else if{
+                row.style.display = 'none';
+            }
+                });
+    }
+</script>

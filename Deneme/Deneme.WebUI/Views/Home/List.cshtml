@@ -1,0 +1,35 @@
+﻿@model List<ProductDetailVM>
+
+
+    <a class="btn btn-success" asp-controller="Home" asp-action="Index">Yeni Ürün Ekle</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                
+                <th>ProductName</th>
+                <th>VertiansName</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Güncelle/Sil</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach(var item in Model)
+        {
+           <tr>
+           
+            <td>@item.ProductName</td>   
+            <td>@item.VertianName</td>
+            <td>@item.Price</td>
+            <td>@item.Quantity</td>
+            <td>
+                <a asp-controller="Home" asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary"> Güncelle </a>
+                <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+            </td>
+          </tr>
+        }
+           
+        </tbody>
+
+
+    </table>
